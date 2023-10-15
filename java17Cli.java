@@ -31,8 +31,14 @@ public class Cli {
 				case "os":
 					output = System.getProperty("os.name") + " (" + System.getProperty("os.version") + ")";;
 					break;
+				case String s -> s.startsWith("printenv")
+					String[] strTable = splitString(command, 0);
+					if(strTable.length > 1 && System.getenv(strTable[1]) != null) {
+						output = System.getenv(strTable[1]);
+					}
+					break;
 				default:
-					if (command.startsWith("printenv")) {
+					/*if (command.startsWith("printenv")) {
 						String[] strTable = splitString(command, 0);
 						if(strTable.length > 1 && System.getenv(strTable[1]) != null) {
 							output = System.getenv(strTable[1]);
@@ -45,7 +51,7 @@ public class Cli {
 							output += strTable[i] + " ";
 						}
 						break;
-					}
+					}*/
 					// String concatenation
 					output = "Command '" + command + "' not found.";
 			}
