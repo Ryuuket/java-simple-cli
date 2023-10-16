@@ -2,17 +2,19 @@ import java.util.Scanner;
 import java.time.LocalDateTime;  
 import java.time.format.DateTimeFormatter;      
 
-public class Cli {
+public class BCli {
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in); // Listen to the standard input (console)
 		System.out.print("> "); // Prompt
-		while (true) { // Infinite loop
+		loop: while (true) { // Infinite loop
 			String command = scanner.nextLine(); // Get input from console as an array of strings
+			String arguments = "";
+			if(command.indexOf(" ") != -1) {
+				arguments = command.substring(command.indexOf(" ")+1);
+				command = command.substring(0, command.indexOf(" "));
+			}
 			String output = ""; // A variable named output of type String
-			if (command.equals("exit")) {
-				break; // Forces exit of the while loop
-			} 
-			switch(command.startsWith()) {
+			switch(command) {
 				case "date":
 					output = java.time.LocalDate.now().toString();
 					break;  
@@ -31,21 +33,19 @@ public class Cli {
 				case "os":
 					output = System.getProperty("os.name") + " (" + System.getProperty("os.version") + ")";;
 					break;
+				case "printenv":
+					if(arguments != null && System.getenv(arguments) != null) {
+						output = System.getenv(arguments);
+					}
+					break;
+				case "echo":
+					if(arguments != null) {
+						output = arguments;
+					}
+					break;
+				case "exit": 
+					break loop; // Forces exit of the while loop
 				default:
-					if (command.startsWith("printenv")) {
-						String[] strTable = splitString(command, 0);
-						if(strTable.length > 1 && System.getenv(strTable[1]) != null) {
-							output = System.getenv(strTable[1]);
-						}
-						break;
-					}
-					if (command.startsWith("echo")) {
-						String[] strTable = splitString(command, 0);
-						for(int i = 1; i < strTable.length; i++) {
-							output += strTable[i] + " ";
-						}
-						break;
-					}
 					// String concatenation
 					output = "Command '" + command + "' not found.";
 			}

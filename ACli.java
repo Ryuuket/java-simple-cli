@@ -2,17 +2,14 @@ import java.util.Scanner;
 import java.time.LocalDateTime;  
 import java.time.format.DateTimeFormatter;      
 
-public class Cli {
+public class ACli {
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in); // Listen to the standard input (console)
 		System.out.print("> "); // Prompt
-		while (true) { // Infinite loop
-			String command = scanner.nextLine(); // Get input from console as an array of strings
+		loop: while (true) { // Infinite loop
+			String command[] = scanner.nextLine().split(" ", 2); // Get input from console as an array of strings
 			String output = ""; // A variable named output of type String
-			if (command.equals("exit")) {
-				break; // Forces exit of the while loop
-			} 
-			switch(command.startsWith()) {
+			switch(command[0]) {
 				case "date":
 					output = java.time.LocalDate.now().toString();
 					break;  
@@ -31,23 +28,21 @@ public class Cli {
 				case "os":
 					output = System.getProperty("os.name") + " (" + System.getProperty("os.version") + ")";;
 					break;
+				case "printenv":
+					if(command.length > 1 && System.getenv(command[1]) != null) {
+						output = System.getenv(command[1]);
+					}
+					break;
+				case "echo":
+					if(command.length > 1) {
+						output = command[1];
+					}
+					break;
+				case "exit": 
+					break loop; // Forces exit of the while loop
 				default:
-					if (command.startsWith("printenv")) {
-						String[] strTable = splitString(command, 0);
-						if(strTable.length > 1 && System.getenv(strTable[1]) != null) {
-							output = System.getenv(strTable[1]);
-						}
-						break;
-					}
-					if (command.startsWith("echo")) {
-						String[] strTable = splitString(command, 0);
-						for(int i = 1; i < strTable.length; i++) {
-							output += strTable[i] + " ";
-						}
-						break;
-					}
 					// String concatenation
-					output = "Command '" + command + "' not found.";
+					output = "Command '" + command[0] + "' not found.";
 			}
 			System.out.println(output); // Print with new line (ln)
 			System.out.print("> "); // Prompt
