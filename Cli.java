@@ -33,8 +33,8 @@ public class Cli {
 				case "printenv":
 					if(command.length == 1) {
 						var wrapper = new Object(){ String value = ""; };
-						System.getenv().forEach((variable, value) -> {
-    							wrapper.value += variable + ":" + value + "\n";
+						System.getenv().forEach((key, value) -> {
+    							wrapper.value += key + ":" + value + "\n";
 						});
 						output = wrapper.value;
 					} else if(command.length > 1) {
