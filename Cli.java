@@ -1,5 +1,4 @@
 import java.io.File;
-import java.util.Arrays;
 import java.util.Scanner;
 import java.time.LocalDateTime;  
 import java.time.format.DateTimeFormatter;      
@@ -54,7 +53,7 @@ public class Cli {
 					if(command.length > 1) {
 						File path = new File(command[1]);
 						String contents[] = path.list();
-						if(contents.length > 0) {
+						if(contents != null) {
 							for(int i=0; i<contents.length; i++) {
 								output += contents[i] + "\n";
 							} 
