@@ -28,7 +28,7 @@ public class Cli {
 				if(command.length == 1) {
 					Map <String, String> environmentVariables = System.getenv();
 					for (Map.Entry<String, String> entry : environmentVariables.entrySet()) {
-						output += entry.getKey() + " = " + entry.getValue() + System.lineSeparator();
+						output += entry.getKey() + "=" + entry.getValue() + System.lineSeparator();
 					}
 				} else if(command.length > 1) {
 					output = System.getenv(command[1]);
@@ -51,6 +51,8 @@ public class Cli {
 					} else {
 						output = "Not a directory.";
 					}
+				} else {
+					output = "Not a directory.";
 				}
 			} else if(command[0].equals("exit") || command[0].equals("logout")) {
 				break; // Forces exit of the while loop
