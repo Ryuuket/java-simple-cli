@@ -9,7 +9,7 @@ public class Cli {
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in); // Listen to the standard input (console)
 		System.out.print("> "); // Prompt
-		loop: while (true) { // Infinite loop
+		while (true) { // Infinite loop
 			String command[] = scanner.nextLine().split(" ", 2); // Get input from console as an array of strings
 			String output = ""; // A variable named output of type String
 			if(command[0].equals("date")) {
@@ -26,11 +26,10 @@ public class Cli {
 				output = System.getProperty("os.name") + " (" + System.getProperty("os.version") + ")";
 			} else if(command[0].equals("printenv")) {
 				if(command.length == 1) {
-					var wrapper = new Object(){ String value = ""; };
-					Map <String, String> EnvironmentVariable = System.getenv();
-					EnvironmentVariable.forEach((key, value) -> 
-						wrapper.value += key + " = " + value + System.lineSeparator());
-					output = wrapper.value;
+					Map <String, String> environmentVariables = System.getenv();
+					for (Map.Entry<String, String> entry : environmentVariables.entrySet()) {
+						output += entry.getKey() + " = " + entry.getValue() + System.lineSeparator();
+					}
 				} else if(command.length > 1) {
 					output = System.getenv(command[1]);
 					if(output == null) {
