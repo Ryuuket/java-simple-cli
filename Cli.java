@@ -2,6 +2,7 @@ import java.io.File;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.lang.StringBuilder;
 import java.time.LocalDateTime;  
 import java.time.format.DateTimeFormatter;      
 
@@ -11,7 +12,7 @@ public class Cli {
 		System.out.print("> "); // Prompt
 		while (true) { // Infinite loop
 			String command[] = scanner.nextLine().split(" ", 2); // Get input from console as an array of strings
-			String output = ""; // A variable named output of type String
+			String output = "";; // A variable named output of type String
 			if(command[0].equals("date")) {
 				output = java.time.LocalDate.now().toString();  
 			} else if(command[0].equals("time")) {
@@ -23,13 +24,17 @@ public class Cli {
 			} else if(command[0].equals("userhome")) {
 				output = System.getProperty("user.home");
 			} else if(command[0].equals("os")) {
-				output = System.getProperty("os.name") + " (" + System.getProperty("os.version") + ")";
+				StringBuilder sb = new StringBuilder();
+				sb.append(System.getProperty("os.name")).append(" (").append(System.getProperty("os.version")).append(")");
+				output = sb.toString();
 			} else if(command[0].equals("printenv")) {
 				if(command.length == 1) {
 					Map <String, String> environmentVariables = System.getenv();
+					StringBuilder sb = new StringBuilder();
 					for (Map.Entry<String, String> entry : environmentVariables.entrySet()) {
-						output += entry.getKey() + "=" + entry.getValue() + System.lineSeparator();
+						sb.append(entry.getKey()).append("=").append(entry.getValue()).append(System.lineSeparator());
 					}
+					output = sb.toString();
 				} else if(command.length > 1) {
 					output = System.getenv(command[1]);
 					if(output == null) {
@@ -44,10 +49,12 @@ public class Cli {
 				if(command.length > 1) {
 					File path = new File(command[1]);
 					String contents[] = path.list();
+					StringBuilder sb = new StringBuilder();
 					if(contents != null) {
 						for(int i=0; i<contents.length; i++) {
-							output += contents[i] + System.lineSeparator();
+							sb.append(contents[i]).append(System.lineSeparator());
 						} 
+						output = sb.toString();
 					} else {
 						output = "Not a directory.";
 					}
