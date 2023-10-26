@@ -6,30 +6,31 @@ public class Cli {
 		System.out.print("> "); // Prompt
 		while (true) { // Infinite loop
 			CommandLine command = new CommandLine(scanner.nextLine()); // Get input from console as an array
+			String cmd = command.getCommand();
 			String output = "";
-			if(command.getCommand().equals("date")) {
+			if(cmd.equals("date")) {
 				output = Commands.date();
-			} else if(command.getCommand().equals("time")) {
+			} else if(cmd.equals("time")) {
 				output = Commands.time();
-			} else if(command.getCommand().equals("datetime")) {
+			} else if(cmd.equals("datetime")) {
 				output = Commands.dateTime();
-			} else if(command.getCommand().equals("useraccount")) {
+			} else if(cmd.equals("useraccount")) {
 				output = Commands.userAccount();
-			} else if(command.getCommand().equals("userhome")) {
+			} else if(cmd.equals("userhome")) {
 				output = Commands.userHome();
-			} else if(command.getCommand().equals("os")) {
+			} else if(cmd.equals("os")) {
 				output = Commands.os();
-			} else if(command.getCommand().equals("printenv")) {
+			} else if(cmd.equals("printenv")) {
 				output = Commands.printEnv(command);
-			} else if(command.getCommand().equals("echo") || command.getCommand().equals("print")) {
+			} else if(cmd.equals("echo") || cmd.equals("print")) {
 				output = Commands.echo(command);
-			} else if(command.getCommand().equals("ls")) {
+			} else if(cmd.equals("ls")) {
 				output = Commands.ls(command);
-			} else if(command.getCommand().equals("exit") || command.getCommand().equals("logout")) {
+			} else if(cmd.equals("exit") || cmd.equals("logout")) {
 				break; // Forces exit of the while loop
 			} else {
 				// String concatenation
-				output = String.format("Command '%s' not found.", command.getCommand());
+				output = String.format("Command '%s' not found.", cmd);
 			}
 			System.out.println(output); // Print with new line (ln)
 			System.out.print("> "); // Prompt

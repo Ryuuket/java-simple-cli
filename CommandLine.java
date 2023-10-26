@@ -19,6 +19,6 @@ public class CommandLine {
 	}
 
 	public boolean hasArgument() {
-		return arguments != null ? true : false;
+		return arguments != null;
 	}
 }

@@ -64,11 +64,8 @@ public class Commands {
 					sb.append(contents[i]).append(System.lineSeparator());
 				} 
 				return sb.toString();
-			} else {
-				return "Not a directory.";
-			}
-		} else {
-			return "Not a directory.";
+			} 
 		}
+		return "Not a directory.";
 	}
 }
