@@ -26,6 +26,8 @@ public class Cli {
 				output = Commands.echo(command);
 			} else if(cmd.equals("ls")) {
 				output = Commands.ls(command);
+			} else if(cmd.equals("cat")) {
+				output = Commands.cat(command);
 			} else if(cmd.equals("exit") || cmd.equals("logout")) {
 				break; // Forces exit of the while loop
 			} else {
