@@ -28,6 +28,8 @@ public class Cli {
 				output = Commands.ls(command);
 			} else if(cmd.equals("cat")) {
 				output = Commands.cat(command);
+			} else if(cmd.equals("cesar")) {
+				output = Commands.cesar(command);
 			} else if(cmd.equals("exit") || cmd.equals("logout")) {
 				break; // Forces exit of the while loop
 			} else {

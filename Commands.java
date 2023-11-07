@@ -1,14 +1,11 @@
 import java.io.File;    
 import java.util.Map;
-import java.io.Reader;
 import java.util.HashMap;
-import java.io.InputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.lang.StringBuilder;
 import java.time.LocalDateTime;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;  
 import java.time.format.DateTimeFormatter;
 
 public class Commands {
@@ -76,27 +73,48 @@ public class Commands {
 	}
 
 	public static String cat(CommandLine command) {
-		InputStream inputStream = null;
-		StringBuilder textBuilder = new StringBuilder();
-		try{
-			File path = new File(command.getArguments());
-			inputStream = new FileInputStream(path);
-			Reader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
-			int c = 0;
-			while ((c = reader.read()) != -1) {
-				textBuilder.append((char) c);
+		BufferedReader reader;
+		StringBuilder sb = new StringBuilder();
+		try {
+			reader = new BufferedReader(new FileReader(command.getArguments()));
+			String line = reader.readLine();
+			for(int i = 1; line != null; i++) {
+				sb.append(i).append(". ").append(line).append(System.lineSeparator());
+				line = reader.readLine();
 			}
-		} catch(Exception e) { //Mauvaise pratique je pense, mais dans le cadre de l'exercice où il faut envoyer le même message dans tous les cas d'erreur, c'est justifié je crois?
+			reader.close();
+		} catch(Exception e) { 
 			return "Error reading file";
-		} finally {
-    			try{ 
-				if (inputStream != null) {
-					inputStream.close();
-				}
-			} catch (Exception e) { //Mauvaise pratique je pense, mais dans le cadre de l'exercice où il faut envoyer le même message dans tous les cas d'erreur, c'est justifié je crois?
-				return "Error closing file";
-			}
 		}
-		return textBuilder.toString();
+		return sb.toString();
+	}
+
+	public static String cesar(CommandLine command) {
+		if(command.hasArgument()){
+			String[] arguments = command.getArguments().split(" ", 2);
+			if(arguments.length >= 2) {
+				try {
+					int offset = Integer.parseInt(arguments[0]);
+					StringBuilder sb = new StringBuilder();
+					for (char character : arguments[1].toCharArray()) {
+						if (character != ' ') {
+							int originalAlphabetPosition = character - 'a';
+							int newAlphabetPosition = (originalAlphabetPosition + offset) % 26;
+							char newCharacter = (char) ('a' + newAlphabetPosition);
+							sb.append(newCharacter);
+						} else {
+							sb.append(character);
+						}
+					}
+					return sb.toString();
+				} catch (NumberFormatException nfe) {
+					return "Error in usage. Please specify the offset, then the message to encrypt, like this : cesar [offset] [message].";
+				}
+			} else {
+				return "Error in usage. Please specify the offset, then the message to encrypt, like this : cesar [offset] [message].";
+			}
+		} else {
+			return "Error in usage. Please tap the command followed by the offset and the message to encrypt, like this : cesar [offset] [message].";
+		}
 	}
 }
