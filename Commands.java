@@ -73,16 +73,13 @@ public class Commands {
 	}
 
 	public static String cat(CommandLine command) {
-		BufferedReader reader;
 		StringBuilder sb = new StringBuilder();
-		try {
-			reader = new BufferedReader(new FileReader(command.getArguments()));
+		try (BufferedReader reader = new BufferedReader(new FileReader(command.getArguments()));){
 			String line = reader.readLine();
 			for(int i = 1; line != null; i++) {
 				sb.append(i).append(". ").append(line).append(System.lineSeparator());
 				line = reader.readLine();
 			}
-			reader.close();
 		} catch(Exception e) { 
 			return "Error reading file";
 		}
